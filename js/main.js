@@ -4,15 +4,18 @@ const SCISSOR = 'SCISSORS';
 
 
 /**
- * Get random computer choice
- * @return {string} [computer selection]
+ * @return {string} 
  */
 function getComputerChoice() {
 	const choices = [ROCK, PAPER, SCISSOR];
 	return choices[Math.floor(Math.random() * choices.length)];
 }
 
-
+/**
+ * @param  {string} playerSelection
+ * @param  {string} computerSelection
+ * @return {number} 0 = wrong input, 1 = tie, 2 = computer wins, 3 = player wins
+ */
 function playSingleRound(playerSelection, computerSelection) {
 
 	if (!playerSelection) {
@@ -22,7 +25,7 @@ function playSingleRound(playerSelection, computerSelection) {
 	// Normalize string
 	playerSelection = playerSelection.toUpperCase();
 
-	if(playerSelection !== ROCK && playerSelection !== SCISSOR && playerSelection !== PAPER) {
+	if (playerSelection !== ROCK && playerSelection !== SCISSOR && playerSelection !== PAPER) {
 		return 0;
 	}
 
@@ -47,6 +50,9 @@ function playSingleRound(playerSelection, computerSelection) {
 	}
 }
 
+/**
+ * @return {void}
+ */
 function game() {
 
 	let computerPoints = 0;
@@ -63,14 +69,14 @@ function game() {
 		// Play single round
 		let result = playSingleRound(playerSelection, computerSelection);
 
-		if(result === 0) {
+		if (result === 0) {
 			console.log('No valid input, please try again');
-		} else if(result === 1) {
+		} else if (result === 1) {
 			console.log(`It's a tie`);
-		} else if(result === 2) {
+		} else if (result === 2) {
 			computerPoints = computerPoints + 1;
 			console.log(`You lose! ${computerSelection} beats ${playerSelection}`);
-		} else if(result === 3) {
+		} else if (result === 3) {
 			playerPoints = playerPoints + 1;
 			console.log(`You win! ${playerSelection} beats ${computerSelection}`);
 		}
@@ -78,7 +84,7 @@ function game() {
 
 	if (playerPoints > computerPoints) {
 		console.log('You won the game!');
-	} else if( playerPoints === computerPoints) {
+	} else if (playerPoints === computerPoints) {
 		console.log('It\'s a tie, you both win!');
 	} else if (playerPoints < computerPoints) {
 		console.log('You lost the game!');
@@ -86,5 +92,3 @@ function game() {
 }
 
 game();
-
-
