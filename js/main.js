@@ -5,14 +5,16 @@ const SCISSORS = 'SCISSORS';
 let playerScore = 0;
 let computerScore = 0;
 
-const computerRockButton = document.querySelector('#computer__rock');
-const computerPaperButton = document.querySelector('#computer__paper');
-const computerScissorsButton = document.querySelector('#computer__scissors');
-const playerRockButton = document.querySelector('#human__rock');
-const playerPaperButton = document.querySelector('#human__paper');
-const playerScissorsButton = document.querySelector('#human__scissors');
-const playerScoreText = document.querySelector('#human__score');
-const computerScoreText = document.querySelector('#computer__score');
+const computerRockButton = document.getElementById('computer__rock');
+const computerPaperButton = document.getElementById('computer__paper');
+const computerScissorsButton = document.getElementById('computer__scissors');
+const playerRockButton = document.getElementById('human__rock');
+const playerPaperButton = document.getElementById('human__paper');
+const playerScissorsButton = document.getElementById('human__scissors');
+const playerScoreText = document.getElementById('human__score');
+const computerScoreText = document.getElementById('computer__score');
+const computerReload = document.getElementById('computer__reload');
+const playerReload = document.getElementById('player__reload');
 
 
 function getComputerChoice() {
@@ -55,13 +57,9 @@ function playSingleRound(playerSelection, computerSelection) {
 		return;
 	}
 
-	// Normalize string
-	playerSelection = playerSelection.toUpperCase();
-
 	if (playerSelection !== ROCK && playerSelection !== SCISSORS && playerSelection !== PAPER) {
 		return;
 	}
-
 
 	// Tie
 	if (playerSelection === computerSelection) {
@@ -97,20 +95,58 @@ playerScissorsButton.addEventListener('click', () => {
 	playGame(SCISSORS);
 });
 
+playerReload.addEventListener('click', () => {
+	playerScore = 0;
+	computerScore = 0;
+	document.getElementById('computer').style.display = 'block';
+	document.getElementById('player__choices').style.display = 'flex';
+	playerReload.style.display = 'none';
+	computerReload.style.display = 'none';
+	playerScoreText.textContent = `Your score: ${playerScore}`;
+	computerScoreText.textContent = `Computer score: ${computerScore}`;
+});
+
+computerReload.addEventListener('click', () => {
+	playerScore = 0;
+	computerScore = 0;
+	document.getElementById('human').style.display = 'block';
+	document.getElementById('computer__choices').style.display = 'flex';
+	playerReload.style.display = 'none';
+	computerReload.style.display = 'none';
+	playerScoreText.textContent = `Your score: ${playerScore}`;
+	computerScoreText.textContent = `Computer score: ${computerScore}`;
+});
+
 function playGame(playersChoice) {
 
 	const computerChoice = getComputerChoice();
 	playSingleRound(playersChoice, computerChoice);
-	console.log('Player', playerScore);
-	console.log('Computer', computerScore);
 
-	playerScoreText.textContent = `Your score: ${playerScore}`;
-	computerScoreText.textContent = `Computer score: ${computerScore}`;
+	if(!(computerScore === 5 || playerScore === 5)) {
+		playerScoreText.textContent = `Your score: ${playerScore}`;
+		computerScoreText.textContent = `Computer score: ${computerScore}`;
 
-	setBackgroundColorPlayer(playersChoice);
-	setBackgroundColorComputer(computerChoice);
+		setBackgroundColorPlayer(playersChoice);
+		setBackgroundColorComputer(computerChoice);
 
-	setTimeout(function() {
-		unsetBackgroundColors();
-	}, 1000);
+		setTimeout(function() {
+			unsetBackgroundColors();
+		},800);
+	} else {
+		finishGame();
+	}
+}
+
+function finishGame() {
+	if(playerScore === 5) {
+		playerScoreText.textContent = 'Bam! You won!';
+		document.getElementById('computer').style.display = 'none';
+		document.getElementById('player__choices').style.display = 'none';
+		playerReload.style.display = 'block';
+	} else if (computerScore === 5) {
+		computerScoreText.textContent = 'Nice try. Maybe next time!';
+		document.getElementById('human').style.display = 'none';
+		document.getElementById('computer__choices').style.display = 'none';
+		computerReload.style.display = 'block';
+	}
 }

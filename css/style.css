@@ -50,6 +50,12 @@ picture img {
 	margin: auto;
 }
 
+#computer__reload, #player__reload {
+	width: 45px;
+	height: auto;
+	margin: auto;
+}
+
 /**
  * ICONS/ CHOICES
  */
