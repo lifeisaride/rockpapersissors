@@ -1,94 +1,116 @@
 const ROCK = 'ROCK';
 const PAPER = 'PAPER';
-const SCISSOR = 'SCISSORS';
+const SCISSORS = 'SCISSORS';
+
+let playerScore = 0;
+let computerScore = 0;
+
+const computerRockButton = document.querySelector('#computer__rock');
+const computerPaperButton = document.querySelector('#computer__paper');
+const computerScissorsButton = document.querySelector('#computer__scissors');
+const playerRockButton = document.querySelector('#human__rock');
+const playerPaperButton = document.querySelector('#human__paper');
+const playerScissorsButton = document.querySelector('#human__scissors');
+const playerScoreText = document.querySelector('#human__score');
+const computerScoreText = document.querySelector('#computer__score');
 
 
-/**
- * @return {string} 
- */
 function getComputerChoice() {
-	const choices = [ROCK, PAPER, SCISSOR];
+	const choices = [ROCK, PAPER, SCISSORS];
 	return choices[Math.floor(Math.random() * choices.length)];
 }
 
-/**
- * @param  {string} playerSelection
- * @param  {string} computerSelection
- * @return {number} 0 = wrong input, 1 = tie, 2 = computer wins, 3 = player wins
- */
+function setBackgroundColorPlayer(playersChoice) {
+	if (playersChoice === ROCK) {
+		playerRockButton.classList.add('pink');
+	} else if (playersChoice === PAPER) {
+		playerPaperButton.classList.add('purple');
+	} else if (playersChoice === SCISSORS) {
+		playerScissorsButton.classList.add('blue');
+	}
+}
+
+function setBackgroundColorComputer(computerChoice) {
+	if (computerChoice === ROCK) {
+		computerRockButton.classList.add('pink');
+	} else if (computerChoice === PAPER) {
+		computerPaperButton.classList.add('purple');
+	} else if (computerChoice === SCISSORS) {
+		computerScissorsButton.classList.add('blue');
+	}
+}
+
+function unsetBackgroundColors() {
+	const choices = document.querySelectorAll('single-choice');
+	for (choice of choices) {
+		choice.classList.remove('pink');
+		choice.classList.remove('purple');
+		choice.classList.remove('blue');
+	}
+}
+
 function playSingleRound(playerSelection, computerSelection) {
 
 	if (!playerSelection) {
-		return 0;
+		return;
 	}
 
 	// Normalize string
 	playerSelection = playerSelection.toUpperCase();
 
-	if (playerSelection !== ROCK && playerSelection !== SCISSOR && playerSelection !== PAPER) {
-		return 0;
+	if (playerSelection !== ROCK && playerSelection !== SCISSORS && playerSelection !== PAPER) {
+		return;
 	}
 
 
 	// Tie
 	if (playerSelection === computerSelection) {
-		return 1;
+		return;
 	}
 
 	// Player loses
 	if ((playerSelection == ROCK && computerSelection == PAPER) ||
-		(playerSelection == SCISSOR && computerSelection == ROCK) ||
-		(playerSelection == PAPER && computerSelection == SCISSOR)) {
-		return 2;
+		(playerSelection == SCISSORS && computerSelection == ROCK) ||
+		(playerSelection == PAPER && computerSelection == SCISSORS)) {
+		computerScore++;
+		return;
 	}
 
 	// Player wins
 	if ((computerSelection == ROCK && playerSelection == PAPER) ||
-		(computerSelection == SCISSOR && playerSelection == ROCK) ||
-		(computerSelection == PAPER && playerSelection == SCISSOR)) {
-		return 3;
+		(computerSelection == SCISSORS && playerSelection == ROCK) ||
+		(computerSelection == PAPER && playerSelection == SCISSORS)) {
+		playerScore++;
+		return;
 	}
 }
 
-/**
- * @return {void}
- */
-function game() {
+playerRockButton.addEventListener('click', () => {
+	playGame(ROCK);
+});
 
-	let computerPoints = 0;
-	let playerPoints = 0;
+playerPaperButton.addEventListener('click', () => {
+	playGame(PAPER);
+});
 
-	for (let i = 0; i < 5; i++) {
+playerScissorsButton.addEventListener('click', () => {
+	playGame(SCISSORS);
+});
 
-		// Get user input
-		let playerSelection = prompt('Pleas enter rock, paper or scissor');
+function playGame(playersChoice) {
 
-		// Get computer selection
-		let computerSelection = getComputerChoice();
+	const computerChoice = getComputerChoice();
+	playSingleRound(playersChoice, computerChoice);
+	console.log('Player', playerScore);
+	console.log('Computer', computerScore);
 
-		// Play single round
-		let result = playSingleRound(playerSelection, computerSelection);
+	playerScoreText.textContent = `Your score: ${playerScore}`;
+	computerScoreText.textContent = `Computer score: ${computerScore}`;
 
-		if (result === 0) {
-			console.log('No valid input, please try again');
-		} else if (result === 1) {
-			console.log(`It's a tie`);
-		} else if (result === 2) {
-			computerPoints = computerPoints + 1;
-			console.log(`You lose! ${computerSelection} beats ${playerSelection}`);
-		} else if (result === 3) {
-			playerPoints = playerPoints + 1;
-			console.log(`You win! ${playerSelection} beats ${computerSelection}`);
-		}
-	}
+	setBackgroundColorPlayer(playersChoice);
+	setBackgroundColorComputer(computerChoice);
 
-	if (playerPoints > computerPoints) {
-		console.log('You won the game!');
-	} else if (playerPoints === computerPoints) {
-		console.log('It\'s a tie, you both win!');
-	} else if (playerPoints < computerPoints) {
-		console.log('You lost the game!');
-	}
+	setTimeout(function() {
+		unsetBackgroundColors();
+	}, 1000);
 }
-
-game();

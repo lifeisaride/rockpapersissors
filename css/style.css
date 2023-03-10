@@ -1,0 +1,99 @@
+@import 'reset.css';
+
+/**
+ * GENERAL
+ */
+
+* {
+    box-sizing: border-box;
+}
+
+/**
+ * MAIN 
+ */
+
+main {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #ffbe0b;
+	padding: 10px;
+	min-height: 100vh;
+	flex-wrap: wrap;
+	gap: 80px;
+}
+
+/**
+ * PLAYER SECTION
+ */
+
+player {
+	background: white;
+	margin: 15px;
+	border: 5px solid black;
+	border-radius: 20px;
+	padding: 30px;
+	text-align: center;
+}
+
+/**
+ * PLAYER PICTURE
+ */
+
+picture {
+	display: block;
+}
+
+picture img {
+	display: block;
+	max-width: 20rem;
+	margin: auto;
+}
+
+/**
+ * ICONS/ CHOICES
+ */
+
+choices {
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+}
+
+single-choice {
+	border: 5px solid black;
+	border-radius: 80px;
+	padding: 25px;
+}
+
+#human single-choice img:hover {
+	transform: scale(1.1);
+}
+
+/**
+ * SCORE
+ */
+p {
+	font-size: 2rem;
+	font-family: 'Ubuntu', sans-serif;
+	font-weight: 500;
+	padding-bottom: 25px;
+}
+
+
+/**
+ * COLORS
+ */
+
+.pink {
+	background-color: #ff006e;
+}
+
+.purple {
+	background-color: #8338ec;
+}
+
+.blue {
+	background-color: #3a86ff;
+}
+
